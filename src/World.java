@@ -25,6 +25,10 @@ public class World {
 		seed(num);
 	}
 	
+	public void addLife(Organism o){
+		life.add(o);
+	}
+	
 	/*
 	 * Seeds a set num of randomized 1N organisms to the life list.
 	 */
@@ -39,7 +43,7 @@ public class World {
 		
 		for(int i = 0; i < num; i ++){
 			Organism org = new Organism(100, randL, randH);
-			org.addPacket(dnaChunk);
+			org.addAcid(dnaChunk);
 			life.add(org);
 			
 			randH = rand.nextInt(height);
@@ -59,7 +63,8 @@ public class World {
 	}
 	
 	public void takeAction(Organism org){
-		String instr = org.iterateBrain(); 
+		String instr = org.iterateBrain();
+		org.remember();
 		int x = org.X();
 		int y = org.Y();
 		
@@ -84,6 +89,8 @@ public class World {
 			break;
 		default:			
 		}
+		
+		org.consider();
 	}
 	
 	public String peerGlobal(){
@@ -106,6 +113,16 @@ public class World {
 				if(j == length - 1)
 					output += "\n";
 			}
+		}
+		return output;
+	}
+	
+	public String lifeDetails(){
+		String output = "";
+		for(Organism o : life){
+			output += "Pos: " + o.X() + "," + o.Y() + "\n";
+			output += "DNA: " + o.dna() + "\n";
+			output += "Brain: " + o.brain() + "\n";
 		}
 		return output;
 	}

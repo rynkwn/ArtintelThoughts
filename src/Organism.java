@@ -1,4 +1,7 @@
 import java.util.ArrayList;
+import java.util.Random;
+
+import Utils.ArrayListUtils;
 
 public class Organism {
 	private double biomass;
@@ -6,6 +9,7 @@ public class Organism {
 	private ArrayList<String> dna;
 	private ArrayList<String> brain;
 	private int pointer;
+	private Memory pastSelf;
 	
 	/*
 	public Organism (double b, int x, int y, String sub){
@@ -19,7 +23,28 @@ public class Organism {
 		biomass = b;
 		pos = new Pos(x, y);
 		dna = new ArrayList<String>();
+		brain = new ArrayList<String>();
 		pointer = 0;
+	}
+	
+	public void remember(){
+		pastSelf = new Memory(this);
+	}
+	
+	/*
+	 * Was the goal reached?
+	 */
+	public void consider(){
+		if(goalCheck(pastSelf)){ // Goal Failure
+			rethink();
+		}
+	}
+	
+	/*
+	 * Modify instruction set.
+	 */
+	public void rethink(){
+		brain = ArrayListUtils.addToRandomPosition(getRandomDNA(), brain);
 	}
 	
 	public void addPacket(String s){
@@ -31,6 +56,8 @@ public class Organism {
 	}
 	
 	public String readPointer(){
+		if(brain.size() == 0)
+			return "";
 		return brain.get(pointer);
 	}
 	
@@ -78,6 +105,20 @@ public class Organism {
 		return biomass;
 	}
 	
+	public ArrayList<String> getBrain(){
+		return brain;
+	}
+	
+	public ArrayList<String> getDNA(){
+		return dna;
+	}
+	
+	public String getRandomDNA(){
+		Random rand = new Random();
+		int index = rand.nextInt(dna.size());
+		return dna.get(index);
+	}
+	
 	public String dna(){
 		String output = "";
 		for(String packet : dna)
@@ -90,5 +131,9 @@ public class Organism {
 		for(String packet : brain)
 			output += packet;
 		return output;
+	}
+	
+	public boolean goalCheck(Memory m){
+		return this.X() == m.pos.X() && this.Y() == m.pos.Y(); 
 	}
 }
