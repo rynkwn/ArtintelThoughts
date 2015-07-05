@@ -45,6 +45,9 @@ public class Organism {
 	 */
 	public void rethink(){
 		brain = ArrayListUtils.addToRandomPosition(getRandomDNA(), brain);
+		// Right now, let's cap the brain size to 10 instruction pieces
+		if(brain.size() > 10)
+			brain = ArrayListUtils.subset(brain, 0, 10);
 	}
 	
 	public void addPacket(String s){
