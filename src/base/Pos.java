@@ -1,3 +1,4 @@
+package base;
 
 public class Pos {
 	private int x;
@@ -22,5 +23,21 @@ public class Pos {
 	
 	public int Y(){
 		return y;
+	}
+	
+	public Pos up(){
+		return new Pos(x, y-1);
+	}
+	
+	public Pos down(){
+		return new Pos(x, y+1);
+	}
+	
+	public Pos left(){
+		return new Pos(x-1, y);
+	}
+	
+	public Pos right(){
+		return new Pos(x+1, y);
 	}
 }

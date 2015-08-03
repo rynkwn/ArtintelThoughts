@@ -1,7 +1,11 @@
+package base;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class World {
+	public final double PHOTOSYNTHESIS_GROUND_BIOMASS_SUCK_RATE = 0.10;
+	public final double PHOTOSYNTHESIS_AIR_BIOMASS_SUCK_RATE = .05;
+	
 	private int length;
 	private int height;
 	private Square[][] grid;
@@ -67,10 +71,14 @@ public class World {
 		org.remember();
 		int x = org.X();
 		int y = org.Y();
+		Square s = grid[x][y];
+		double bg = s.biomassGround();
+		double ba = s.biomassAir();
+		
+		double amtG = bg * this.PHOTOSYNTHESIS_GROUND_BIOMASS_SUCK_RATE;
+		double amtA = ba * this.PHOTOSYNTHESIS_AIR_BIOMASS_SUCK_RATE;
 		
 		switch(instr){
-		case "a":
-			break;
 		case "u":
 			if(y > 0)
 				org.setY(y - 1);
@@ -86,6 +94,16 @@ public class World {
 		case "d":
 			if(y < height - 1)
 				org.setY(y + 1);
+			break;
+		case "photo":
+			s.decGround(amtG);
+			org.addBio(amtG);
+			break;
+		case "filter":
+			s.decAir(amtA);
+			org.addBio(amtA);
+			break;
+		case "rep":
 			break;
 		default:			
 		}
@@ -126,4 +144,5 @@ public class World {
 		}
 		return output;
 	}
+	
 }

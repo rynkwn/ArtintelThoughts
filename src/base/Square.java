@@ -1,3 +1,4 @@
+package base;
 public class Square{
 	private double biomassGround;
 	private double biomassAir;

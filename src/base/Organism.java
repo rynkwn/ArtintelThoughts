@@ -1,7 +1,8 @@
+package base;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Utils.ArrayListUtils;
+import utils.ArrayListUtils;
 
 public class Organism {
 	private double biomass;
@@ -106,6 +107,10 @@ public class Organism {
 	
 	public double biomass(){
 		return biomass;
+	}
+
+	public Pos pos(){
+		return pos;
 	}
 	
 	public ArrayList<String> getBrain(){
